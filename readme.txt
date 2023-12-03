@@ -37,3 +37,170 @@ public class fdsAssignment1 {
         System.out.println("Reversed String: " + reverse);
     }
 }
+
+----------------------------------
+-----------------
+--------------------------------------------------------------------
+-----------------
+--------------------------------------------------------------------
+-----------------
+----------------------------------
+
+//simple transpose
+
+public class fdsb2 {
+    static class SparseMatrixElement {
+        int row;
+        int col;
+        int value;
+
+        public SparseMatrixElement(int row, int col, int value) {
+            this.row = row;
+            this.col = col;
+            this.value = value;
+        }
+    }
+
+    public static SparseMatrixElement[] transposeSparseMatrix(SparseMatrixElement[] matrix) {
+       
+        SparseMatrixElement[] transpose = new SparseMatrixElement[matrix.length];
+
+        // Iterate over the original matrix and transpose it
+        for (int i = 0; i < matrix.length; i++) {
+            transpose[matrix[i].col] = new SparseMatrixElement(matrix[i].col, matrix[i].row, matrix[i].value);
+        }
+
+        // Return the transposed matrix
+        return transpose;
+    }
+
+    public static void main(String[] args) {
+        // Create a sparse matrix
+        SparseMatrixElement[] matrix = new SparseMatrixElement[] {
+            new SparseMatrixElement(0, 1, 2),
+            new SparseMatrixElement(1, 2, 3),
+            new SparseMatrixElement(2, 0, 4)
+        };
+
+        // Transpose the sparse matrix
+        SparseMatrixElement[] transpose = transposeSparseMatrix(matrix);
+
+        // Print the transposed sparse matrix
+        System.out.println("The transpose of the sparse matrix is:");
+        for (int i = 0; i < transpose.length; i++) {
+            System.out.println(transpose[i].row + " " + transpose[i].col + " " + transpose[i].value);
+        }
+    }
+}
+
+----------------------------------
+-----------------
+----------------------------------
+----------------------------------
+-----------------
+--------------------------------------------------------------------
+-----------------
+----------------------------------
+
+
+
+//fast transpose
+
+
+import java.util.ArrayList;
+
+class SparseMatrix {
+    int rows, cols;
+    ArrayList<SparseElement> elements;
+
+    public SparseMatrix(int rows, int cols) {
+        this.rows = rows;
+        this.cols = cols;
+        this.elements = new ArrayList<>();
+    }
+
+    public void addElement(int row, int col, int value) {
+        if (row >= 0 && row < rows && col >= 0 && col < cols) {
+            elements.add(new SparseElement(row, col, value));
+        } else {
+            System.out.println("Invalid row or column index");
+        }
+    }
+
+    public void fastTranspose() {
+        // Initialize an array to store the number of non-zero elements in each column of the transpose
+        int[] colCounts = new int[cols];
+        
+        // Count the number of non-zero elements in each column
+        for (SparseElement element : elements) {
+            colCounts[element.col]++;
+        }
+        
+        // Compute the starting index for each column in the transpose
+        int[] colStart = new int[cols];
+        colStart[0] = 0;
+        for (int i = 1; i < cols; i++) {
+            colStart[i] = colStart[i - 1] + colCounts[i - 1];
+        }
+        
+        // Create a new array to store the transposed elements
+        SparseElement[] transposedElements = new SparseElement[elements.size()];
+        
+        // Populate the transposedElements array by rearranging the elements
+        for (SparseElement element : elements) {
+            int transposedIndex = colStart[element.col];
+            transposedElements[transposedIndex] = new SparseElement(element.col, element.row, element.value);
+            colStart[element.col]++;
+        }
+        
+        // Update the elements list with the transposed elements
+        elements.clear();
+        for (SparseElement element : transposedElements) {
+            elements.add(element);
+        }
+    }
+
+    public void display() {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                int value = 0;
+                for (SparseElement element : elements) {
+                    if (element.row == i && element.col == j) {
+                        value = element.value;
+                        break;
+                    }
+                }
+                System.out.print(value + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    public static void main(String[] args) {
+        SparseMatrix matrix = new SparseMatrix(3, 3);
+        matrix.addElement(0, 0, 1);
+        matrix.addElement(0, 2, 2);
+        matrix.addElement(1, 1, 3);
+        matrix.addElement(2, 0, 4);
+        matrix.addElement(2, 2, 5);
+
+        System.out.println("Original Matrix:");
+        matrix.display();
+
+        matrix.fastTranspose();
+
+        System.out.println("\nTransposed Matrix:");
+        matrix.display();
+    }
+}
+
+class SparseElement {
+    int row, col, value;
+
+    public SparseElement(int row, int col, int value) {
+        this.row = row;
+        this.col = col;
+        this.value = value;
+    }
+}
+
