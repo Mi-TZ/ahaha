@@ -452,6 +452,171 @@ public class fds{
         System.out.println("Popped element: " + stack.pop());
         stack.display();
     }
+}Certainly! Below, I'll provide examples for various searching and sorting algorithms in Java. Keep in mind that these are basic implementations, and you may need to adjust them based on specific use cases.
+
+### Searching Algorithms:
+
+1. **Linear Search:**
+```java
+public class LinearSearch {
+    public static int search(int[] array, int target) {
+        for (int i = 0; i < array.length; i++) {
+            if (array[i] == target) {
+                return i;
+            }
+        }
+        return -1; // Not found
+    }
 }
+```
 
+2. **Binary Search (for sorted arrays):**
+```java
+import java.util.Arrays;
 
+public class BinarySearch {
+    public static int search(int[] array, int target) {
+        int left = 0;
+        int right = array.length - 1;
+
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+
+            if (array[mid] == target) {
+                return mid;
+            } else if (array[mid] < target) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+
+        return -1; // Not found
+    }
+}
+```
+
+### Sorting Algorithms:
+
+1. **Bubble Sort:**
+```java
+public class BubbleSort {
+    public static void sort(int[] array) {
+        int n = array.length;
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (array[j] > array[j + 1]) {
+                    // Swap array[j] and array[j+1]
+                    int temp = array[j];
+                    array[j] = array[j + 1];
+                    array[j + 1] = temp;
+                }
+            }
+        }
+    }
+}
+```
+
+2. **Selection Sort:**
+```java
+public class SelectionSort {
+    public static void sort(int[] array) {
+        int n = array.length;
+        for (int i = 0; i < n - 1; i++) {
+            int minIndex = i;
+            for (int j = i + 1; j < n; j++) {
+                if (array[j] < array[minIndex]) {
+                    minIndex = j;
+                }
+            }
+            // Swap array[i] and array[minIndex]
+            int temp = array[i];
+            array[i] = array[minIndex];
+            array[minIndex] = temp;
+        }
+    }
+}
+```
+
+3. **Insertion Sort:**
+```java
+public class InsertionSort {
+    public static void sort(int[] array) {
+        int n = array.length;
+        for (int i = 1; i < n; i++) {
+            int key = array[i];
+            int j = i - 1;
+
+            while (j >= 0 && array[j] > key) {
+                array[j + 1] = array[j];
+                j--;
+            }
+
+            array[j + 1] = key;
+        }
+    }
+}
+```
+
+4. **Merge Sort:**
+```java
+public class MergeSort {
+    public static void sort(int[] array, int left, int right) {
+        if (left < right) {
+            int mid = left + (right - left) / 2;
+
+            // Recursive sort for both halves
+            sort(array, left, mid);
+            sort(array, mid + 1, right);
+
+            // Merge the sorted halves
+            merge(array, left, mid, right);
+        }
+    }
+
+    private static void merge(int[] array, int left, int mid, int right) {
+        int n1 = mid - left + 1;
+        int n2 = right - mid;
+
+        int[] leftArray = new int[n1];
+        int[] rightArray = new int[n2];
+
+        // Copy data to temporary arrays
+        for (int i = 0; i < n1; i++) {
+            leftArray[i] = array[left + i];
+        }
+        for (int j = 0; j < n2; j++) {
+            rightArray[j] = array[mid + 1 + j];
+        }
+
+        // Merge the two arrays
+        int i = 0, j = 0, k = left;
+        while (i < n1 && j < n2) {
+            if (leftArray[i] <= rightArray[j]) {
+                array[k] = leftArray[i];
+                i++;
+            } else {
+                array[k] = rightArray[j];
+                j++;
+            }
+            k++;
+        }
+
+        // Copy remaining elements of leftArray[], if any
+        while (i < n1) {
+            array[k] = leftArray[i];
+            i++;
+            k++;
+        }
+
+        // Copy remaining elements of rightArray[], if any
+        while (j < n2) {
+            array[k] = rightArray[j];
+            j++;
+            k++;
+        }
+    }
+}
+```
+
+These examples cover linear search, binary search, bubble sort, selection sort, insertion sort, and merge sort. Remember to adapt them to your specific needs and handle edge cases accordingly.
