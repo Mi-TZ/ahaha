@@ -243,3 +243,215 @@ class bubblesort {
      printArray(arr);
    }
 }
+
+----------------------------------
+-----------------
+----------------------------------
+----------------------------------
+-----------------
+--------------------------------------------------------------------
+-----------------
+----------------------------------
+
+//employee
+
+//linked list
+
+
+class Employee {
+    int empId;
+    String name;
+    String position;
+    double salary;
+    Employee next;
+
+    public Employee(int empId, String name, String position, double salary) {
+        this.empId = empId;
+        this.name = name;
+        this.position = position;
+        this.salary = salary;
+        this.next = null;
+    }
+}
+
+class EmployeeLinkedList {
+    private Employee head;
+
+    public void display() {
+        Employee current = head;
+        while (current != null) {
+            System.out.println("Employee ID: " + current.empId + ", Name: " + current.name + ", Position: " + current.position + ", Salary: " + current.salary);
+            current = current.next;
+        }
+    }
+
+    public void insert(int empId, String name, String position, double salary) {
+        Employee newEmployee = new Employee(empId, name, position, salary);
+        newEmployee.next = head;
+        head = newEmployee;
+    }
+
+    public Employee search(int empId) {
+        Employee current = head;
+        while (current != null) {
+            if (current.empId == empId) {
+                return current;
+            }
+            current = current.next;
+        }
+        return null;
+    }
+
+    public void delete(int empId) {
+        if (head == null) {
+            return;
+        }
+        if (head.empId == empId) {
+            head = head.next;
+            return;
+        }
+        Employee current = head;
+        Employee prev = null;
+        while (current != null && current.empId != empId) {
+            prev = current;
+            current = current.next;
+        }
+        if (current == null) {
+            return;
+        }
+        prev.next = current.next;
+    }
+
+    public void modify(int empId, String newName, String newPosition, double newSalary) {
+        Employee employee = search(empId);
+        if (employee != null) {
+            employee.name = newName;
+            employee.position = newPosition;
+            employee.salary = newSalary;
+        }
+    }
+}
+
+public class fdsa4 {
+    public static void main(String[] args) {
+        EmployeeLinkedList employeeList = new EmployeeLinkedList();
+
+        employeeList.insert(612, "rahul", "HR", 1000000);
+        employeeList.insert(613, "jannat", "manager", 500000);
+        employeeList.insert(614, "shreya", "doctor", 4500000);
+
+        System.out.println("Employees:");
+        employeeList.display();
+
+        Employee result = employeeList.search(102);
+        if (result != null) {
+            System.out.println("Employee is found: " + result.name);
+        } else {
+            System.out.println("Employee is not found");
+        }
+
+        employeeList.modify(613, "jannat", "Senior Manager", 550000);
+        employeeList.delete(614);
+
+        System.out.println("Modified Employees List:");
+        employeeList.display();
+    }
+}
+
+----------------------------------
+-----------------
+----------------------------------
+----------------------------------
+-----------------
+--------------------------------------------------------------------
+-----------------
+----------------------------------
+
+//stack
+//stack using LL
+
+
+import java.util.*;
+
+class Node {
+    int data;
+    Node next;
+
+    public Node(int data) {
+        this.data = data;
+        this.next = null;
+    }
+}
+
+class Stack {
+    private Node top;
+    private int size;
+    private int capacity;
+
+    public Stack(int capacity) {
+        this.top = null;
+        this.size = 0;
+        this.capacity = capacity;
+    }
+
+    public boolean isFull() {
+        return size == capacity;
+    }
+
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    public void push(int data) {
+        if (isFull()) {
+            System.out.println("stack overflow");
+            return;
+        }
+
+        Node newNode = new Node(data);
+        newNode.next = top;
+        top = newNode;
+        size++;
+    }
+
+    public int pop() {
+        if (isEmpty()) {
+            throw new EmptyStackException();
+        }
+
+        int data = top.data;
+        top = top.next;
+        size--;
+        return data;
+    }
+
+    public void display() {
+        Node current = top;
+        System.out.print("Stack: ");
+        while (current != null) {
+            System.out.print(current.data + " ");
+            current = current.next;
+        }
+        System.out.println();
+    }
+}
+
+public class fds{
+    public static void main(String[] args) {
+        Stack stack = new Stack(4);
+
+        stack.push(13);
+        stack.push(22);
+        stack.push(39);
+        stack.push(45);
+
+        stack.display();
+
+        stack.push(26); 
+
+        System.out.println("Popped element: " + stack.pop());
+        stack.display();
+    }
+}
+
+
