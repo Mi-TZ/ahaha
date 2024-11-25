@@ -87,3 +87,20 @@ word_counts.saveAsTextFile("output_word_count")
 
 # Stop the SparkContext
 sc.stop()
+
+#include <iostream>
+
+// Kernel function to run on the GPU
+__global__ void helloWorld() {
+    printf("Hello, World from GPU thread %d!\n", threadIdx.x);
+}
+
+int main() {
+    // Launch the kernel with 1 block and 10 threads
+    helloWorld<<<1, 10>>>();
+
+    // Wait for the GPU to finish
+    cudaDeviceSynchronize();
+
+    return 0;
+}
